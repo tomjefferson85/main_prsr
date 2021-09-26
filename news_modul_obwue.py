@@ -8,13 +8,13 @@ from telebot import types
 import sys
 import os
 
-bot = telebot.TeleBot('1829698298:AAHToJw6CfiT24n8pmmgyT4sOlIGuig78Oo')
-chanel_name = '@news_non_stop'
-chanel_name1 = '@news_non_stop_nayka'
-chanel_name2 = '@news_non_stop_sport'
-chanel_name3 = '@burja_non_stop'
-chanel_name4 = '@gryazb_non_stop'
-chanel_name5 = '@auto_non_stop'
+bot = telebot.TeleBot('')
+chanel_name = '@'
+chanel_name1 = '@'
+chanel_name2 = '@'
+chanel_name3 = '@'
+chanel_name4 = '@'
+chanel_name5 = '@'
 try:
     def teleprint(*args, delay=0.09, str_join=' '):
         text = str_join.join(str(x) for x in args)
