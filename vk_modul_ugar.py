@@ -9,12 +9,10 @@ import sys
 import os
 
 # ------------------login telebot--------------------------
-bot = telebot.TeleBot('1762909475:AAHmEHQDIZLoIO688Gx2YM9DVWf3mt6XVtI')
-chanel_name = '@ugar_non_stop'
-token = '1762909475:AAHmEHQDIZLoIO688Gx2YM9DVWf3mt6XVtI'
-myID = '@test_my_shit'
+bot = telebot.TeleBot('')
+chanel_name = '@'
 # ----------------login vk----------------------------
-vk_session = vk_api.VkApi('+79647918149', 'solomon00001111')
+vk_session = vk_api.VkApi('')
 vk_session.auth()
 vk = vk_session.get_api()
 
