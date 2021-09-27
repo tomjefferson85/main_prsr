@@ -1,20 +1,19 @@
-import requests
+import requests, telebot, re, time, sys, os
 from bs4 import BeautifulSoup
-import telebot
-import re
 import datetime as dt
-import time
 from telebot import types
-import sys
-import os
 
-bot = telebot.TeleBot('')
-chanel_name = '@'
-chanel_name1 = '@'
-chanel_name2 = '@'
-chanel_name3 = '@'
-chanel_name4 = '@'
-chanel_name5 = '@'
+news_token = []
+with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\news_token.txt', 'r+') as f_news:
+    news_token.append(f_news.read())
+
+bot = telebot.TeleBot(news_token[0])
+chanel_name = '@news_non_stop'
+chanel_name1 = '@news_non_stop_nayka'
+chanel_name2 = '@news_non_stop_sport'
+chanel_name3 = '@burja_non_stop'
+chanel_name4 = '@gryazb_non_stop'
+chanel_name5 = '@auto_non_stop'
 try:
     def teleprint(*args, delay=0.09, str_join=' '):
         text = str_join.join(str(x) for x in args)
@@ -136,7 +135,7 @@ try:
 
         obwue.clear()
         obwue.append(main_href[0])
-
+        #print(main_href)
         if obwue != obwue2:
             # ----------выуживание инфы из сслыки----------------------
             teleprint('\r' + "Ria Main:" + str(obwue != obwue2) + "\n")
@@ -149,23 +148,26 @@ try:
                 main_text = soup.find_all('div', itemprop="articleBody")
                 for tag in main_text:
                     l = (str(" ".join(tag.text.split())))  # убираем теги из l
+                    #print(l)
                 href_split_text = re.split('\—', str(l), maxsplit=1)
                 href_split_text2 = re.split('\. ', str(href_split_text), maxsplit=1)
                 limit_text = href_split_text2[1][0:300]
                 finish_text = "_" + limit_text + "_" + "...\n\n"  # Конечный текст -----------
                 # ----------берем первое фото------------------
-                main_photo = soup.find_all("div", src="")
+                main_photo = soup.find_all(rel="preload")
+                print(main_photo)
                 href_split = re.split('"', str(main_photo))
                 myString = ' '.join(href_split)
-                main_photo2 = re.findall(r'\b\w*https://cdn21\w*\S*\b',
+                main_photo2 = re.findall(r'\b\w*https://cdnn21\w*\S*\b',
                                          myString)  # Ссылки с картинками -----------
+                print(main_photo2)
                 with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\news.txt',
                           'w') as f_news:
                     obwue2.clear()
                     f_news.write(main_href[0])
 
                 obwue2.append(main_href[0])
-                img_1 = main_photo2[4]
+                img_1 = main_photo2[0]
                 z = '(' + main_href[0] + ')'
                 url = '[' + 'Читать полностью...' + ']'
                 media = [

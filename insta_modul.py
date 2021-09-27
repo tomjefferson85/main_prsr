@@ -1,18 +1,22 @@
-import requests, telebot, re, time, os, sys
+import requests, telebot, re, time, os, sys, datetime as dt
 from bs4 import BeautifulSoup
-import datetime as dt
 from os import listdir
 from os.path import isfile
 from os.path import join as joinpath
 from telebot import types
 
-bot = telebot.TeleBot('')
-chanel_name = '@'
-chanel_Test_my_shit_bot = '@'
-chanel_name1 = '@'
-chanel_name2 = '@'
-chanel_name3 = '@'
-chanel_name4 = '@'
+insta_tg_token = []
+with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\insta_tg_token.txt', 'r+') as f_news:
+    insta_tg_token.append(f_news.read())
+
+bot = telebot.TeleBot(insta_tg_token[0])
+
+chanel_name = '@test_my_shit'
+chanel_Test_my_shit_bot = '@Test_my_shit_bot'
+chanel_name1 = '@ugar_non_stop'
+chanel_name2 = '@news_non_stop_nayka'
+chanel_name3 = '@gryazb_non_stop'
+chanel_name4 = '@auto_non_stop'
 
 # Импортируем типы из модуля, чтобы создавать кнопки
 try:

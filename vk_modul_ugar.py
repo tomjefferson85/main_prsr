@@ -1,18 +1,24 @@
-import requests
-import vk_api
-import re
-import time
-import telebot
-import datetime as dt
+import requests, vk_api, re, time, telebot, sys, os, datetime as dt
 from telebot import types
-import sys
-import os
 
 # ------------------login telebot--------------------------
-bot = telebot.TeleBot('')
-chanel_name = '@'
+ugar_tg_token = []
+with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\vk_prsr_token.txt', 'r+') as f_news:
+    ugar_tg_token.append(f_news.read())
+
+bot = telebot.TeleBot(ugar_tg_token[0])
+
+chanel_name = '@ugar_non_stop'
 # ----------------login vk----------------------------
-vk_session = vk_api.VkApi('')
+login_vk = []
+with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\vk_login.txt', 'r+') as f_news:
+    login_vk.append(f_news.read())
+
+pswrd_vk = []
+with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\pswrd_vk.txt', 'r+') as f_news:
+    pswrd_vk.append(f_news.read())
+
+vk_session = vk_api.VkApi(login_vk[0], pswrd_vk[0])
 vk_session.auth()
 vk = vk_session.get_api()
 
