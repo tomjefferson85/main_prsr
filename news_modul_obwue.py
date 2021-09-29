@@ -206,14 +206,14 @@ try:
         l = []
         for tag in popular_news:
             l.append(str(" ".join(tag.text.split())))
-        msg0 = "Главные новости:" + "\nn"
+        msg0 = "Главные новости:" + "\n\n"
         msg1 = '[' + l[0] + ']' + '(' + popular_href[0] + ')' + "\n\n"
         msg2 = '[' + l[1] + ']' + '(' + popular_href[1] + ')' + "\n\n"
         msg3 = '[' + l[2] + ']' + '(' + popular_href[2] + ')' + "\n\n"
         msg4 = '[' + l[3] + ']' + '(' + popular_href[3] + ')' + "\n\n"
         msg5 = '[' + l[4] + ']' + '(' + popular_href[4] + ')' + "\n\n"
-
-        if int(popular_news_count[0]) == 0 and now.hour >= 10 < 11:
+        #print(popular_news_count[0])
+        if now.hour >= 10 and now.hour < 11 and int(popular_news_count[0]) == 0 :
 
             bot.unpin_all_chat_messages(chanel_name)
             msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
@@ -222,9 +222,9 @@ try:
             popular_news_count.append(1)
             with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
                       'w+') as f_news:
-                f_news.write(str(popular_news_count))
+                f_news.write(str(popular_news_count[0]))
             SportNews()
-        elif int(popular_news_count[0]) == 1 and now.hour >= 15 < 16:
+        elif now.hour >= 15 and now.hour < 16 and int(popular_news_count[0]) == 1:
 
             bot.unpin_all_chat_messages(chanel_name)
             msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
@@ -233,10 +233,10 @@ try:
             popular_news_count.append(2)
             with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
                       'w+') as f_news:
-                f_news.write(str(popular_news_count))
+                f_news.write(str(popular_news_count[0]))
             SportNews()
 
-        elif int(popular_news_count[0]) == 2 and now.hour >= 18 < 19:
+        elif now.hour >= 18 and now.hour < 19 and int(popular_news_count[0]) == 2:
 
             bot.unpin_all_chat_messages(chanel_name)
             msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
@@ -245,10 +245,10 @@ try:
             popular_news_count.append(3)
             with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
                       'w+') as f_news:
-                f_news.write(str(popular_news_count))
+                f_news.write(str(popular_news_count[0]))
             SportNews()
 
-        elif int(popular_news_count[0]) == 3 and now.hour >= 21 < 22:
+        elif now.hour >= 21 and now.hour < 22 and int(popular_news_count[0]) == 3:
 
             bot.unpin_all_chat_messages(chanel_name)
             msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
@@ -257,7 +257,7 @@ try:
             popular_news_count.append(0)
             with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
                       'w+') as f_news:
-                f_news.write(str(popular_news_count))
+                f_news.write(str(popular_news_count[0]))
             SportNews()
         else:
             print("Время для закрепа не подошло")
@@ -373,46 +373,49 @@ try:
 
 
     def nakednews():
-        # ----------href----------------------
-        web_0 = 'https://naked-science.ru/'
-        rs_0 = requests.get(web_0)
-        soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
-        href = soup.find_all('h3', limit=2)
-        href_split = re.split('"', str(href[0]))
+            try:
+                # ----------href----------------------
+                web_0 = 'https://naked-science.ru/'
+                rs_0 = requests.get(web_0)
+                soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
+                href = soup.find_all('h3', limit=2)
+                href_split = re.split('"', str(href[0]))
 
-        # ----------title----------------------
-        title = soup.find_all('h3', limit=2)
-        title_split = re.split('"', str(title[0]))
-        myString = ''.join(title_split[4])
-        m_split2 = re.split('>', str(myString))
-        myString1 = ''.join(m_split2[1])
-        m_split3 = re.split('<', str(myString1))
+                # ----------title----------------------
+                title = soup.find_all('h3', limit=2)
+                title_split = re.split('"', str(title[0]))
+                myString = ''.join(title_split[4])
+                m_split2 = re.split('>', str(myString))
+                myString1 = ''.join(m_split2[1])
+                m_split3 = re.split('<', str(myString1))
 
-        # print(m_split3[0])
-        # print(href_split[3])
+                # print(m_split3[0])
+                # print(href_split[3])
 
-        naked.clear()
-        naked.append(href_split[3])
+                naked.clear()
+                naked.append(href_split[3])
 
-        if naked != naked2:
-            teleprint('\r' + "Naked-science:" + str(naked != naked2) + "\n")
+                if naked != naked2:
+                    teleprint('\r' + "Naked-science:" + str(naked != naked2) + "\n")
 
-            with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\naked.txt', 'w') as f_news:
-                naked2.clear()
-                f_news.write(href_split[3])
+                    with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\naked.txt', 'w') as f_news:
+                        naked2.clear()
+                        f_news.write(href_split[3])
 
-            naked2.append(href_split[3])
-            j = (m_split3[0] + '\n\n')
-            z = '(' + href_split[3] + ')'
-            bot.send_message(chanel_name1, j + '[Источник:]' + z, parse_mode='Markdown')
-            # bot.send_message(chanel_name1, m_split3[0] + '\n\n' + href_split[3])
-            time.sleep(4)
-            techno1()
-        else:
-            teleprint('\r' + "Naked-science: " + str(naked != naked2))
-            time.sleep(4)
-            techno1()
-
+                    naked2.append(href_split[3])
+                    j = (m_split3[0] + '\n\n')
+                    z = '(' + href_split[3] + ')'
+                    bot.send_message(chanel_name1, j + '[Источник:]' + z, parse_mode='Markdown')
+                    # bot.send_message(chanel_name1, m_split3[0] + '\n\n' + href_split[3])
+                    time.sleep(4)
+                    techno1()
+                else:
+                    teleprint('\r' + "Naked-science: " + str(naked != naked2))
+                    time.sleep(4)
+                    techno1()
+            except IndexError:
+                print("\nNaked Science - Index Error")
+                techno1()
 
     def techno1():
         # ----------href----------------------
@@ -482,23 +485,23 @@ try:
             main_text = soup1.find_all("div", class_="b-text clearfix js-topic__text")
             for tag in main_text:
                 l = (str(" ".join(tag.text.split())))
-                main_text_split = re.split('Материалы', str(l))
-                finish_text = "_" + main_text_split[0] + "_" + "\n\n"
+            main_text_split = re.split('Материалы', str(l[0:300]))
+            finish_text = "_" + main_text_split[0] + "_" + "\n\n"
 
-                # ----------берем первое фото------------------
+            # ----------берем первое фото------------------
 
-                main_photo = soup1.find_all(class_="g-picture")
-                main_photo_split = re.split('"', str(main_photo))
-                myString = ' '.join(main_photo_split)
-                main_photo = re.findall(r'\b\w*https://\w*\S*\b', myString)
-                # ----------Готовим сообщение в телегу------------------
-                img_1 = main_photo[0]
-                z = '(' + web_1 + ')'
-                url = '[' + "Читать полностью..." + ']'
-                media = [types.InputMediaPhoto(img_1, caption=j + finish_text[0:300] + "..." + url + z,
-                                               parse_mode='Markdown')]
-                bot.send_media_group(chanel_name1, media)
-                finanz_0()
+            main_photo = soup1.find_all(class_="g-picture")
+            main_photo_split = re.split('"', str(main_photo))
+            myString = ' '.join(main_photo_split)
+            main_photo = re.findall(r'\b\w*https://\w*\S*\b', myString)
+            # ----------Готовим сообщение в телегу------------------
+            img_1 = main_photo[0]
+            z = '(' + web_1 + ')'
+            url = '[' + "Читать полностью..." + ']' + z
+            media = [types.InputMediaPhoto(img_1, caption=j + finish_text + url,
+                                           parse_mode='Markdown')]
+            bot.send_media_group(chanel_name1, media)
+            finanz_0()
 
         else:
             teleprint('\r' + "Lenta Nayka: " + str(Nauka != Nauka2))
@@ -587,6 +590,7 @@ try:
             rs_0 = requests.get(web_1)
             soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
             main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 iegLIC", limit=3)
+            #print(main_text)
             h = ""
             for tag in main_text:
                 h = (str(" ".join(tag.text.split())))
@@ -596,9 +600,13 @@ try:
             main_photo = soup.find_all(class_="styled__Content-sc-14f2vgk-1 juRDLB")
             href_split = re.split('"', str(main_photo))
             myString = ' '.join(href_split)
-            main_photo2 = re.findall(r'\b\w*https://s1\w*\S*\b', myString)  # Ссылки с картинками -----------
+            main_photo3 = re.findall(r'\b\w*https://s1\w*\S*\b', myString)  # Ссылки с картинками -----------
+            myString2 = ' '.join(main_photo3)
+            photo_new = myString2.replace(".webp", ".jpg ")
+            main_photo2 = re.findall(r'\b\w*https://s1\w*\S*\b', photo_new)  # Ссылки с картинками c заменой н jpg-----------
             z = '(' + web_1 + ')'
             url = '[' + "Читать полностью..." + ']'
+            #print(main_photo2)
             if len(main_photo2) <= 6:
                 img_1 = main_photo2[0]
                 media = [types.InputMediaPhoto(img_1, caption=j + finish_text + url + z, parse_mode='Markdown')]
@@ -655,7 +663,7 @@ try:
 
         KP3.clear()
         KP3.append(href_split[3])
-        print(KP3,KP33)
+        #print(KP3,KP33)
         if KP3 != KP33:
 
             teleprint('\r' + "KP WORLD: " + str(KP3 != KP33) + "\n")
@@ -672,6 +680,7 @@ try:
             rs_0 = requests.get(web_1)
             soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
             main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 iegLIC", limit=3)
+            print(main_text)
             h = ""
             for tag in main_text:
                 h = (str(" ".join(tag.text.split())))
@@ -681,7 +690,11 @@ try:
             main_photo = soup.find_all()
             href_split = re.split('"', str(main_photo))
             myString = ' '.join(href_split)
-            main_photo2 = re.findall(r'\b\S*\w*wr-\w*\S*\b', myString)  # Ссылки с картинками -----------
+            main_photo3 = re.findall(r'\b\S*\w*wr-\w*\S*\b', myString)  # Ссылки с картинками -----------
+            myString2 = ' '.join(main_photo3)
+            photo_new = myString2.replace(".webp", ".jpg ")
+            main_photo2 = re.findall(r'\b\w*https://s1\w*\S*\b',
+                                     photo_new)  # Ссылки с картинками c заменой н jpg-----------
             # print(len(main_photo2))
             if len(main_photo2) == 0:
                 main_photo3 = re.findall(r'\b\w*https://s1\w*\S*\b', myString)  # Ссылки с картинками -----------
