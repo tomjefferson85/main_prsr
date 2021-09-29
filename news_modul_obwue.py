@@ -206,17 +206,43 @@ try:
         l = []
         for tag in popular_news:
             l.append(str(" ".join(tag.text.split())))
-        msg0 = "Главные новости:" + "\n\n"
+        msg0 = "*" + "Главные новости:" + "\n\n" + "*"
         msg1 = '[' + l[0] + ']' + '(' + popular_href[0] + ')' + "\n\n"
         msg2 = '[' + l[1] + ']' + '(' + popular_href[1] + ')' + "\n\n"
         msg3 = '[' + l[2] + ']' + '(' + popular_href[2] + ')' + "\n\n"
         msg4 = '[' + l[3] + ']' + '(' + popular_href[3] + ')' + "\n\n"
         msg5 = '[' + l[4] + ']' + '(' + popular_href[4] + ')' + "\n\n"
-        #print(popular_news_count[0])
-        if now.hour >= 10 and now.hour < 11 and int(popular_news_count[0]) == 0 :
+
+#=--КУРС ВАЛЮТ-----------begin
+        web_curs0 = 'https://bcs-express.ru/kotirovki-i-grafiki/usd000utstom'
+        web_curs1 = "https://bcs-express.ru/kotirovki-i-grafiki/eur_rub__tom"
+        rs_curs1 = requests.get(web_curs1)
+        rs_curs0 = requests.get(web_curs0)
+        soup_curs0 = BeautifulSoup(rs_curs0.content.decode('utf-8'), 'html.parser')
+        soup_curs1 = BeautifulSoup(rs_curs1.content.decode('utf-8'), 'html.parser')
+
+        usd = soup_curs0.find_all(class_="quote-head__price-value js-quote-head-price js-price-close", limit=2)
+        eur = soup_curs1.find_all(class_="quote-head__price-value js-quote-head-price js-price-close", limit=2)
+
+        usd_text = []
+        eur_text = []
+
+        for tag in usd:
+            usd_text.clear()
+            usd_text.append(str(" ".join(tag.text.split())))
+        for tag in eur:
+            eur_text.clear()
+            eur_text.append(str(" ".join(tag.text.split())))
+        msg_hi = "Курс валют на даный момент:"
+        usd_send = "\nUSD = " + str(usd_text[0])
+        eur_send = "\nEUR = " + str(eur_text[0])
+        msg_main = "*" + str(msg_hi + usd_send + eur_send) + "*"
+
+# =--КУРС ВАЛЮТ-----------over
+        if now.hour >= 11 and now.hour < 12 and int(popular_news_count[0]) == 0 :
 
             bot.unpin_all_chat_messages(chanel_name)
-            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5 + msg_main, parse_mode='Markdown')
             bot.pin_chat_message(chanel_name, message_id=msg.message_id)
             popular_news_count.clear()
             popular_news_count.append(1)
@@ -227,7 +253,7 @@ try:
         elif now.hour >= 15 and now.hour < 16 and int(popular_news_count[0]) == 1:
 
             bot.unpin_all_chat_messages(chanel_name)
-            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5 + msg_main, parse_mode='Markdown')
             bot.pin_chat_message(chanel_name, message_id=msg.message_id)
             popular_news_count.clear()
             popular_news_count.append(2)
@@ -239,7 +265,7 @@ try:
         elif now.hour >= 18 and now.hour < 19 and int(popular_news_count[0]) == 2:
 
             bot.unpin_all_chat_messages(chanel_name)
-            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5 + msg_main, parse_mode='Markdown')
             bot.pin_chat_message(chanel_name, message_id=msg.message_id)
             popular_news_count.clear()
             popular_news_count.append(3)
@@ -251,7 +277,7 @@ try:
         elif now.hour >= 21 and now.hour < 22 and int(popular_news_count[0]) == 3:
 
             bot.unpin_all_chat_messages(chanel_name)
-            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5 + msg_main, parse_mode='Markdown')
             bot.pin_chat_message(chanel_name, message_id=msg.message_id)
             popular_news_count.clear()
             popular_news_count.append(0)
