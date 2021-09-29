@@ -136,6 +136,7 @@ try:
         obwue.clear()
         obwue.append(main_href[0])
         #print(main_href)
+
         if obwue != obwue2:
             # ----------выуживание инфы из сслыки----------------------
             teleprint('\r' + "Ria Main:" + str(obwue != obwue2) + "\n")
@@ -155,12 +156,12 @@ try:
                 finish_text = "_" + limit_text + "_" + "...\n\n"  # Конечный текст -----------
                 # ----------берем первое фото------------------
                 main_photo = soup.find_all(rel="preload")
-                print(main_photo)
+                #print(main_photo)
                 href_split = re.split('"', str(main_photo))
                 myString = ' '.join(href_split)
                 main_photo2 = re.findall(r'\b\w*https://cdnn21\w*\S*\b',
                                          myString)  # Ссылки с картинками -----------
-                print(main_photo2)
+                #print(main_photo2)
                 with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\news.txt',
                           'w') as f_news:
                     obwue2.clear()
@@ -174,14 +175,92 @@ try:
                     types.InputMediaPhoto(img_1, caption=j + finish_text + url + z, parse_mode='Markdown')]
                 bot.send_media_group(chanel_name, media)
                 time.sleep(4)
-                SportNews()
+                Popular_news()
             except IndexError:
                 teleprint('\r' "Ria Main Index Error:")
-                SportNews()
+                Popular_news()
 
         else:
             teleprint('\r' + "\n" + "Ria Main:" + str(obwue != obwue2))
             time.sleep(4)
+            Popular_news()
+
+
+    def Popular_news():
+        now = dt.datetime.now()
+        web_0 = 'https://ria.ru/'
+        rs_0 = requests.get(web_0)
+        soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
+        href = soup.find_all(class_='cell-list__item-link color-font-hover-only', limit=10)
+        href_split2 = re.split('"', str(href))
+
+        popular_news = [href[5], href[6], href[7], href[8], href[9]]
+        myString = ' '.join(href_split2)
+        find_href = re.findall(r'\b\w*https://ria.ru\w*\S*\b', myString)  # Ссылки с картинками -----------
+        popular_href = [find_href[5], find_href[6], find_href[7], find_href[8], find_href[9]]
+
+        popular_news_count = []
+        with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt', 'r') as f:
+            popular_news_count.extend(f.read().splitlines())
+
+        l = []
+        for tag in popular_news:
+            l.append(str(" ".join(tag.text.split())))
+        msg0 = "Главные новости:" + "\nn"
+        msg1 = '[' + l[0] + ']' + '(' + popular_href[0] + ')' + "\n\n"
+        msg2 = '[' + l[1] + ']' + '(' + popular_href[1] + ')' + "\n\n"
+        msg3 = '[' + l[2] + ']' + '(' + popular_href[2] + ')' + "\n\n"
+        msg4 = '[' + l[3] + ']' + '(' + popular_href[3] + ')' + "\n\n"
+        msg5 = '[' + l[4] + ']' + '(' + popular_href[4] + ')' + "\n\n"
+
+        if int(popular_news_count[0]) == 0 and now.hour >= 10 < 11:
+
+            bot.unpin_all_chat_messages(chanel_name)
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            bot.pin_chat_message(chanel_name, message_id=msg.message_id)
+            popular_news_count.clear()
+            popular_news_count.append(1)
+            with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
+                      'w+') as f_news:
+                f_news.write(str(popular_news_count))
+            SportNews()
+        elif int(popular_news_count[0]) == 1 and now.hour >= 15 < 16:
+
+            bot.unpin_all_chat_messages(chanel_name)
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            bot.pin_chat_message(chanel_name, message_id=msg.message_id)
+            popular_news_count.clear()
+            popular_news_count.append(2)
+            with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
+                      'w+') as f_news:
+                f_news.write(str(popular_news_count))
+            SportNews()
+
+        elif int(popular_news_count[0]) == 2 and now.hour >= 18 < 19:
+
+            bot.unpin_all_chat_messages(chanel_name)
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            bot.pin_chat_message(chanel_name, message_id=msg.message_id)
+            popular_news_count.clear()
+            popular_news_count.append(3)
+            with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
+                      'w+') as f_news:
+                f_news.write(str(popular_news_count))
+            SportNews()
+
+        elif int(popular_news_count[0]) == 3 and now.hour >= 21 < 22:
+
+            bot.unpin_all_chat_messages(chanel_name)
+            msg = bot.send_message(chanel_name, msg0 + msg1 + msg2 + msg3 + msg4 + msg5, parse_mode='Markdown')
+            bot.pin_chat_message(chanel_name, message_id=msg.message_id)
+            popular_news_count.clear()
+            popular_news_count.append(0)
+            with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\popular_news_count.txt',
+                      'w+') as f_news:
+                f_news.write(str(popular_news_count))
+            SportNews()
+        else:
+            print("Время для закрепа не подошло")
             SportNews()
 
 
