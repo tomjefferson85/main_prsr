@@ -615,7 +615,7 @@ try:
             # print(web_1)
             rs_0 = requests.get(web_1)
             soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
-            main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 iegLIC", limit=3)
+            main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 cQvnhz", limit=3)
             #print(main_text)
             h = ""
             for tag in main_text:
@@ -705,8 +705,7 @@ try:
             # print(web_1)
             rs_0 = requests.get(web_1)
             soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
-            main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 iegLIC", limit=3)
-            print(main_text)
+            main_text = soup.find_all(class_="styled__Paragraph-sc-1wayp1z-16 cQvnhz", limit=3)
             h = ""
             for tag in main_text:
                 h = (str(" ".join(tag.text.split())))
@@ -747,27 +746,45 @@ try:
         web_0 = 'https://www.eg.ru/news/'
         rs_0 = requests.get(web_0)
         soup = BeautifulSoup(rs_0.content.decode('utf-8'), 'html.parser')
-        href = soup.find_all(class_='main2019_footer-collection-item-title', limit=1)
+        href = soup.find_all(class_='section_item-body', limit=1)
         href_split = re.split('"', str(href[0]))
-        # print(href_split[3])
-        l = []
-        for tag in href:
-            l.append(str(" ".join(tag.text.split())))
-            # print(l[0])
 
+        web_1 = href_split[5]
+        rs_1 = requests.get(web_1)
+        soup1 = BeautifulSoup(rs_1.content.decode('utf-8'), 'html.parser')
+        text_main_find = soup1.find_all("p")
+        title_text = soup1.find_all("title")
+        photo_find = soup1.find_all(class_="meta_image_href")
+        photo_split = re.split('"', str(photo_find[0]))
+
+        title_main = []
+        text_main = []
+
+        for tag in title_text:
+            title_main.append(str(" ".join(tag.text.split())))
+        for tag in text_main_find:
+            text_main.append(str(" ".join(tag.text.split())))
+
+        img_1 = "https:" + photo_split[3]
+        j = ("*" + title_main[0] + "*" + '\n\n')
+        finish_text = "_" + text_main[0] + "_" + "\n\n"  # Конечный текст -----------
+        z = '[' + "Читать полностью..." + ']' + '(' + web_1 + ')'
+
+        media = [types.InputMediaPhoto(img_1, caption=j + finish_text + z, parse_mode='Markdown')]
         Ekspress.clear()
-        Ekspress.append(href_split[3])
+        Ekspress.append(href_split[5])
 
         if Ekspress != Ekspress1:
             teleprint('\r' + "Eksress News: " + str(Ekspress != Ekspress1) + "\n")
 
             with open(r'C:\Users\user\Desktop\Python\My_bots\RememberNews\Ekspress.txt', 'w') as f_news:
                 Ekspress1.clear()
-                f_news.write(href_split[3])
+                f_news.write(href_split[5])
 
-            Ekspress1.append(href_split[3])
-            z = '(' + href_split[3] + ')'
-            bot.send_message(chanel_name4, l[0] + '\n\n' + '[Источник:]' + z, parse_mode='Markdown')
+            Ekspress1.append(href_split[5])
+
+            bot.send_media_group(chanel_name4, media)
+
             # bot.send_message(chanel_name4, j)
             time.sleep(4)
             Auto0()
