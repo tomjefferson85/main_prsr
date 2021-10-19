@@ -6,15 +6,17 @@ from bs4 import BeautifulSoup
 from mss import mss
 import datetime as dt
 from telebot import types
-
+files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
+for f in files:
+    os.remove(f)
 setproctitle.setproctitle('BB S_FACTION')
 in_game_trend = []
 Audio_on = []
 in_game_trend_sleep = [0]
 # BTCUSD имя
-url = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq254xfWmxTzYJ6133JRqbO8mr3k8ZehhKyGa2HugKbf8C-K6ge5oF1LgUbk1e7E33J__ADEzhL6X8z9fkzHglCIbRsV7Go2Tf0g5P2fyqdV8A1IgyNGFr_NSqCcN5nFvaQw4VvN21d6k4zMqHxOulpPo8ms1yL1OV-zPaw95_MuwS0_XNkwipy_zHX_vBCH2nJOQi5UtXE5JN-xg6Hg0GzgtDosqDxlYFEHtNzpXx8CueDqU5pnLffJkHid2fPg2p32GIiPNAKmvLKFOAjm00eDI9UsJRSC9_btXm6zGCgOaeuLaNzGzsD7uxro8b2VQernavT7fFsfS892EGtdyKu5aac5HP5r7buX1TTDloGvIYY9n2MaiZr_qZbq11wilaFbFmgZMd8jGdmu99NehrslCqSoTgnhllxGHdg5MrG-6WA1ZcOH1ogpf-Qy4WmjnwHbCfH7n&code=GDAX.BTC-USD&apply=0&df=19&mf=9&yf=2021&from=19.10.2021&dt=19&mt=9&yt=2021&to=19.10.2021&p=2&f=BTCUSD&e=.txt&cn=BTCUSD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=4&at=1'
+url = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq262xn2t6o5yg9JmHufTucBtBpq10aQZZBkdMCxlXtubwJ3eTa9uGdqTLDZvHCPZyb75hEWn-zHf-lN_rEQRGwxatnr6YscwwDiZECsnQ-oWXxjrOaWqghfE243trlcthbwsQcabj2mdgebOPSKZonBv1UW-BpkoWXthqb2FwI9gZ_WLAx-Gtn00vcq9yNOlqWaCY-EiPYVs6s4PwANMLz74VPWIwwhsIOs5XTIRZYWoppCKK3pylceKwrGAQvDCmKgoxhMp3u--rpLvczl4sFW0d-juWZHXWyMiW1tmO-z802Bqhw7yJOlHQv9aqx4YhxS8mr7oi7O65V5ZPoSzyHKErtk1INe5mfDGo0ZqQZEyBSYomEReAl9Qwy2fu1omU65r7qJeHOb2--fj_YyAbvHVLbfUTdBFtR0MaT9tGQpXFO7naAQXEVJsFImBHyYQcJBW6ylL&code=GDAX.BTC-USD&apply=0&df=20&mf=9&yf=2021&from=20.10.2021&dt=20&mt=9&yt=2021&to=20.10.2021&p=2&f=BTCUSD&e=.txt&cn=BTCUSD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=4&at=1'
 # DANTES_PEAK имя
-url3 = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq24-MK6-37rpLobKPUoAdqwL9bh1fNUTS_R5r0JwBpUv_VwXlJC2ZZipnZ_pDu14p9jLDV5vrb3_AybZ2KbPWXXVKFW8RTDPdWpWcItHlUJ8f3uagCgsOsJ4VjtC-6OyLOKVEOTm74m3YJFy7TJcwekXjEgnnjrPn8iF2XR0lSfnfEclCzL8Hl7tdo1fv6eSGHLB2gF3lzFkTjwxxLgNVsm1d8INq9GIE7MhEiM0KJILUF7EwIfawQLUiLkRjIvWLlOk1WwHEc51miL7IBixmLHul1Oaez77I7_JjnONYY7_ZOIGDJ56IrpnBjt_mWK_OpGkXS4LhoDzsqjcPP9F6R-YEobE0kzjUXzXkqcaEFgfHrUQTKDgG_07uEmn_WhIOjIVgbnCSzPh9vW1EUuyf6_zY3dk6sdqSscrV0yIw_91lCxvbXlEgCSwE6KNj7XATVuKMrLp&code=GDAX.BTC-USD&apply=0&df=19&mf=9&yf=2021&from=19.10.2021&dt=19&mt=9&yt=2021&to=19.10.2021&p=2&f=DANTES_PEAK&e=.txt&cn=BTCUSD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=5&at=1'
+url3 = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq24msi9xYSme1_Z-mFARC2xvviUqIIuYExvcHqCUz_gg42sOwPCqo04XUUnxrs8PfVYBsVj6mt6rA74dBVMuhzDEoIApOFf7x4TFXyyYPRUI8rFLhduNW5Dk0Z348StYySG1uGgAnaE4gp_idxCDS7DkRHPWngJhk_uYdaJEY8YTUTs6NtbKLhxdbomTfGa7BxOjj5DGVWZr5z-Gwx5W9f9UCCMF9G3del7Wvkog1hVonl2r5DmCuscztER-Ycp4j3q0QvPVy9TUPes0813GBv03QWjgN6HgI1WfTyLqGEa9oBx9Zs2ceHgX9j79DgiNwqUJZCOR3qux3bg0YuidoVfcV04WIo2h5n-QIuQzj6pnHzjha3xa-0fkYtxeWkVBYo7vy6pSzLu6hHZvH_tfEAgfg6N20mxPfFvMmqVeRR881g1yz6LbHtQlxN6abvIvWpvHVFqw&code=GDAX.BTC-USD&apply=0&df=20&mf=9&yf=2021&from=20.10.2021&dt=20&mt=9&yt=2021&to=20.10.2021&p=2&f=DANTES_PEAK&e=.txt&cn=GDAX.BTC-USD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=5&at=1'
 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\audio\audio.txt', 'r+',
           encoding="utf-8") as f_news:
     Audio_on.clear()
@@ -219,7 +221,7 @@ while True:
                 global count_win, count_lose, obwuu_profit
                 print("Поступил сигнал,проверяю на 5ти минутах.")
                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Xsec.txt', 'w') as f_news:
-                    f_news.write("7")
+                    f_news.write("5")
                 # day_trend_list4.clear()
                 files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
                 for f in files:
@@ -341,7 +343,7 @@ while True:
                                 kj) + "\nСтавок в плюс сегодня: " + str(
                                 count_win)
                                           + "\nСтавок в минус :" + str(count_lose) +
-                                          "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show)  + str(mainCODE2))
+                                          "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                             bot.send_message(chanel_name, text=telemsg)
                             with mss() as sct:
                                 sct.shot()
@@ -363,7 +365,7 @@ while True:
                             telemsg = str("[Неудача]\n[BTC][ЗАК.КУРС: " + str(day_trend_list3[0]) + "]"
                                           + "\nУшли в минус: " + str(kj) + "\nСтавок в плюс сегодня: " + str(count_win)
                                           + "\nСтавок в минус: " + str(count_lose) +
-                                          "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show)  + str(mainCODE2))
+                                          "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                             bot.send_message(chanel_name, text=telemsg)
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\profit.txt', 'w') as f_news:
                             f_news.write(str(kj))
@@ -378,17 +380,19 @@ while True:
 
                 mainCODE.append(day_trend_list[0] + day_trend_list[1])
                 if int(in_game[0]) == 0:
-                    if int(day_trend_list[0]) == 2 and int(day_trend_list[1]) == 1:
-                        print("П-1: -!СЛАБЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])
+                    '''if int(day_trend_list[0]) == 2 and int(day_trend_list[1]) == 1:
+                        print("П-1: -!СЛАБЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])'''
 
 
 
-                    elif int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 1:
+                    if int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 1:
                         print("П-1: -!СИЛЬНЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])
 
 
                     elif int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 2:
                         print("П-1: -!СРЕДНИЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])
+                    else:
+                        print('\nКод для продолжения не подходящий...\n')
 
                 else:
                     if int(in_game[0]) == 1:
@@ -486,6 +490,7 @@ while True:
 
                     vol = DANTES_PEAK[-1]  # ----------------------------------Показатель VOL 3 минуты назад)
                     last_list_split3 = re.split(',', str(vol))  # отжим необходимых чисел
+                    vol_dantes = 0
                     if VOL_PLUS_or_Minus > 0:
                         vol_dantes = int(last_list_split3[-1])
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\vol_3min_check.txt',
@@ -544,7 +549,7 @@ while True:
                         day_trend_list2.append(now_cost + "(" + str(int(now_cost) - int(start_cost)) + ")")
                     trend_day_count += 1
                     day_trend_list3.append(now_cost)
-                    if int(int(now_cost) - int(start_cost)) <= -10:
+                    if int(int(now_cost) - int(start_cost)) <= int(EASY_0[0]):
                         day_trend_list.append("0")
                     else:
                         day_trend_list.append("2")
@@ -554,7 +559,7 @@ while True:
             with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\trend_begin.txt', 'r+') as f_news:
                 saved_cost.append(f_news.read())
             os.system('cls')
-            global count_win, count_lose, obwuu_profit, tsuga_count
+            global count_win, count_lose, obwuu_profit, tsuga_count, play_obj
             teleprint("-----------\nСейчас       -1min    -2min     -3min \n" + str(day_trend_list2))
             teleprint("Код: " + str(
                 str(day_trend_list[0] + str(day_trend_list[1])) + str(str(day_trend_list[2] + str(day_trend_list[3])))))
@@ -575,7 +580,7 @@ while True:
             if len(res_sleep) == 0 and int(in_game[0]) == 0:
                 #v = "Вхожу в режим ожидания скачка."
                 #bot.send_message(chanel_name, text=v)
-                while int(in_game_trend_sleep[0]) < 70:
+                while int(in_game_trend_sleep[0]) < 50:
                     try:
                         files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
                         for f in files:
@@ -621,7 +626,7 @@ while True:
                         os.system('cls')
                         teleprint("Активность за последние 10 секунд:", in_game_trend_sleep[0])
 
-                        teleprint("Слабая динамика... Тихий режим включен. Лимит на пробуждения +70")
+                        teleprint("Слабая динамика... Тихий режим включен. Лимит на пробуждения +50")
                         time.sleep(10)
                     except FileNotFoundError:
                         print("Фаил не успел прогрузиться. пробую еще раз")
@@ -644,7 +649,7 @@ while True:
             print(res3, len(res3))'''
 
             def TSUGA():
-                global count_win, obwuu_profit, tsuga_count
+                global count_win, obwuu_profit, tsuga_count, play_obj
 
                 if int(trend_k) >= int(TSUGA_LIMIT[0]) and int(in_game[0]) == 1:
                     Last_sell.append(day_trend_list3[0])
@@ -666,7 +671,7 @@ while True:
                     telemsg = str("[ЦУГА=" + TSUGA_LIMIT[0] + "]\n[BTC][ЗАК.КУРС: " + str(day_trend_list3[0]) + "]"
                                   + "\nЗабрал +" + str(kj) + "\nСтавок в плюс сегодня: " + str(count_win)
                                   + "\nСтавок в минус: " + str(count_lose) +
-                                  "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show  + str(mainCODE2)))
+                                  "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                     bot.send_message(chanel_name, text=telemsg)
                     with mss() as sct:
                         sct.shot()
@@ -712,7 +717,7 @@ while True:
                                       + "\nИтоговая прибыль сделки: +" + str(kj) + "\nСтавок в плюс сегодня: " + str(
                             count_win)
                                       + "\nСтавок в минус :" + str(count_lose) +
-                                      "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show)  + str(mainCODE2))
+                                      "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                         bot.send_message(chanel_name, text=telemsg)
                         with mss() as sct:
                             sct.shot()
@@ -733,7 +738,7 @@ while True:
                         telemsg = str("[Неудача]\n[BTC][ЗАК.КУРС: " + str(day_trend_list3[0]) + "]"
                                       + "\nУшли в минус: " + str(kj) + "\nСтавок в плюс сегодня: " + str(count_win)
                                       + "\nСтавок в минус: " + str(count_lose) +
-                                      "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show) + str(mainCODE2))
+                                      "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                         if int(Audio_on[0]) == 1:
                             play_obj = LOSTMONEY.play()
                         bot.send_message(chanel_name, text=telemsg)
@@ -819,8 +824,8 @@ while True:
                                   'w') as f_news:
                             if int(Audio_on[0]) == 1:
                                 play_obj = RANO.play()
-                            print("Поэтому подождем пока..секунд 10..может что измениться")
-                            f_news.write("10")
+                            print("Поэтому подождем пока..секунд 5..может что измениться")
+                            f_news.write("5")
 
                 elif len(res2) <= 2:
 
@@ -846,11 +851,11 @@ while True:
                         Byu_bet_len.append(day_trend_list3[0])
 
                     if int(in_game[0]) == 1:
-                        print("Есть активная сделка")
+                        print("\nЕсть активная сделка\n")
                     if int(DANTES_PEAK[0]) > 4:
-                        print("МЫ НА ПИКЕ. ПОВТОРНО СТАВИТЬ НЕ БУДУ ")
+                        print("\nМЫ НА ПИКЕ. ПОВТОРНО СТАВИТЬ НЕ БУДУ\n ")
                     elif int(DANTES_PEAK[0]) == 0:
-                        print("МАЛАЯ ВОЛОНТИЛЬНОСТЬ НА РЫНКЕ. СТАВИТЬ НЕ БУДУ")
+                        print("\nМАЛАЯ ВОЛОНТИЛЬНОСТЬ НА РЫНКЕ. СТАВИТЬ НЕ БУДУ\n")
 
                 teleprint("Сейчас     3м. назад     6м. назад    9.м назад \n" + str(day_trend_list4))
                 teleprint("КОД 5 минут: " + str(show_code))
