@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from mss import mss
 import datetime as dt
 from telebot import types
+DANTES_PEAK = []
 files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
 for f in files:
     os.remove(f)
@@ -15,6 +16,7 @@ Audio_on = []
 in_game_trend_sleep = [0]
 # BTCUSD имя
 url = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq262xn2t6o5yg9JmHufTucBtBpq10aQZZBkdMCxlXtubwJ3eTa9uGdqTLDZvHCPZyb75hEWn-zHf-lN_rEQRGwxatnr6YscwwDiZECsnQ-oWXxjrOaWqghfE243trlcthbwsQcabj2mdgebOPSKZonBv1UW-BpkoWXthqb2FwI9gZ_WLAx-Gtn00vcq9yNOlqWaCY-EiPYVs6s4PwANMLz74VPWIwwhsIOs5XTIRZYWoppCKK3pylceKwrGAQvDCmKgoxhMp3u--rpLvczl4sFW0d-juWZHXWyMiW1tmO-z802Bqhw7yJOlHQv9aqx4YhxS8mr7oi7O65V5ZPoSzyHKErtk1INe5mfDGo0ZqQZEyBSYomEReAl9Qwy2fu1omU65r7qJeHOb2--fj_YyAbvHVLbfUTdBFtR0MaT9tGQpXFO7naAQXEVJsFImBHyYQcJBW6ylL&code=GDAX.BTC-USD&apply=0&df=20&mf=9&yf=2021&from=20.10.2021&dt=20&mt=9&yt=2021&to=20.10.2021&p=2&f=BTCUSD&e=.txt&cn=BTCUSD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=4&at=1'
+url2 = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq26ilA10LEAnZiSKGJudqaTWiM-ZywWw-Ef6Ndtx3uT2nLNrO2iWpfIjibZ8TJmg9deyxOobzOA70C1dnhTmc-ekWBHhz_qZhveXgpJmkLRaiLdGjy8LUVtvX09qbdvyvW2YKjFTQVQwv_bJ8Z8qjv7nsM-8bqduOLKLOzf9yfE4iLTwIvFYoQwaDywLXVe-q3ZPicSiwx-z9Z1sEeM6c19jt6lzWb-qgN30diM-Rgnqnc3i_xx0gR20CBYiPUO_o3sYeUi8soRmRbnk2sifQ31xymA1oVoVhNMu1vvPbdB28zjrLQnVlT1ruaQ4FdJ6_k00IrbifZEkVdK_6zGk73mx1U-Bf1G8zzSTNtbXq5TN75Wa68RGt9HfMU-5Z37fz7gFzuHu6PDqssKypx0MvRnj8aDbA56mweRA-U3MjRvS4-flooSPxnb6d4TSY2d98zECRdeq&code=GDAX.BTC-USD&apply=0&df=20&mf=9&yf=2021&from=20.10.2021&dt=20&mt=9&yt=2021&to=20.10.2021&p=3&f=BTCUSD5min&e=.txt&cn=GDAX.BTC-USD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=4&at=1'
 # DANTES_PEAK имя
 url3 = 'https://export.finam.ru/export9.out?market=520&em=484429&token=03AGdBq24msi9xYSme1_Z-mFARC2xvviUqIIuYExvcHqCUz_gg42sOwPCqo04XUUnxrs8PfVYBsVj6mt6rA74dBVMuhzDEoIApOFf7x4TFXyyYPRUI8rFLhduNW5Dk0Z348StYySG1uGgAnaE4gp_idxCDS7DkRHPWngJhk_uYdaJEY8YTUTs6NtbKLhxdbomTfGa7BxOjj5DGVWZr5z-Gwx5W9f9UCCMF9G3del7Wvkog1hVonl2r5DmCuscztER-Ycp4j3q0QvPVy9TUPes0813GBv03QWjgN6HgI1WfTyLqGEa9oBx9Zs2ceHgX9j79DgiNwqUJZCOR3qux3bg0YuidoVfcV04WIo2h5n-QIuQzj6pnHzjha3xa-0fkYtxeWkVBYo7vy6pSzLu6hHZvH_tfEAgfg6N20mxPfFvMmqVeRR881g1yz6LbHtQlxN6abvIvWpvHVFqw&code=GDAX.BTC-USD&apply=0&df=20&mf=9&yf=2021&from=20.10.2021&dt=20&mt=9&yt=2021&to=20.10.2021&p=2&f=DANTES_PEAK&e=.txt&cn=GDAX.BTC-USD&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=5&at=1'
 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\audio\audio.txt', 'r+',
@@ -169,6 +171,12 @@ while True:
                 print("\nНачинаю анализ рынка. Ничего не трогайте.\n")
                 webbrowser.open(url)
                 time.sleep(2)
+                webbrowser.open(url2)
+                time.sleep(1.8)
+                # Вставляем каждый раз на первое значение в листе последние данные по приросту
+                with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt',
+                          'r+') as f_news:
+                    DANTES_PEAK.append(f_news.readlines()[-1])
 
             with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Xsec.txt', 'r+') as f_news:
                 Xsec.append(f_news.read())
@@ -205,6 +213,7 @@ while True:
                     break
             Xsec.clear()
             choose_start()
+            print('ok')
             day_trend_list = []
             day_trend_list_5min = []
             day_trend_list2 = []  # промежуточный список
@@ -310,10 +319,10 @@ while True:
                     start_progtamm()
 
             mainCODE = []
-
+          
             def BET1():
                 global count_win, count_lose, obwuu_profit
-
+              
                 callback_worker = []
                 callback_worker.clear()
                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\sell_now.txt', 'r+') as f_news:
@@ -321,6 +330,8 @@ while True:
                 if int(callback_worker[0]) == 1:
                     global count_win, count_lose, obwuu_profit
                     if int(in_game[0]) == 1:
+                        with mss() as sct:
+                            sct.shot()
                         bot.send_message(chanel_name, "Ставка снята")
                         Last_sell.append(day_trend_list3[0])
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Sell.txt', 'w') as f_news:
@@ -345,8 +356,7 @@ while True:
                                           + "\nСтавок в минус :" + str(count_lose) +
                                           "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                             bot.send_message(chanel_name, text=telemsg)
-                            with mss() as sct:
-                                sct.shot()
+
                             photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
                             bot.send_photo(chanel_name, photo)
 
@@ -383,8 +393,6 @@ while True:
                     '''if int(day_trend_list[0]) == 2 and int(day_trend_list[1]) == 1:
                         print("П-1: -!СЛАБЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])'''
 
-
-
                     if int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 1:
                         print("П-1: -!СИЛЬНЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0])
 
@@ -402,6 +410,7 @@ while True:
                     pass
 
             while trend_day_count <= 3:
+                print("COUNT: ",trend_day_count)
                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD.txt', 'r+',
                           encoding="utf-8") as f_news:
                     last_cot.clear()
@@ -436,29 +445,24 @@ while True:
                 # print(now_cost, start_cost)
                 # Сравнение цены. Чтобы узнать идет ли плюс. Это для снятия ставки в случае 01 21 00
                 in_game_trend2 = str(int(now_cost) - int(start_cost))
-                # Записать только первое значение
 
-                '''limit_min_trend_up = 10
-                limit_max_trend_up = 30         # ненужный на данный момент кусок кода.
-                                                #Через две обновы удалить. а так же фаилы старее черм два дня
-                limit_min_trend_dwn = -5
-                limit_max_trend_dwn = -20'''
 
                 if trend_day_count == 0:
-                    # vol cheker begin
-                    files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
+                    print('ok5')
+                    # vol cheker begin СРАВНЕНИЕ прироста для того чтобы узнать в какую сторону вол
+                    '''files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
                     for f in files:
-                        os.remove(f)
-                    webbrowser.open(url)
+                        os.remove(f)'''
+                    #webbrowser.open(url2)
                     time.sleep(1.5)
-                    trend_day_count = 0
-                    lst_count = -2  # --------------последнее начение курса--------------------
-                    frs_count = -3  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
-                    with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD.txt', 'r+',
+                    #trend_day_count = 0
+                    lst_count = -1  # --------------последнее начение курса--------------------
+                    frs_count = -2  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
+                    with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt', 'r+',
                               encoding="utf-8") as f_news:
                         last_cot.clear()
                         last_cot.append(f_news.readlines()[lst_count])
-                    with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD.txt', 'r+',
+                    with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt', 'r+',
                               encoding="utf-8") as f_news:
                         first_cot.clear()
                         first_cot.append(f_news.readlines()[
@@ -478,33 +482,24 @@ while True:
                     # print(last_list_split,first_list_split)
                     first_list_split2 = re.split("'", str(first_list_split[-1]))
 
-                    VOLnow_cost = str(last_list_split2[0])[
-                               :5]  # ---------------------------Цена 1 (первые 5 знаков)
+                    min5_now_cost = str(last_list_split2[0])[
+                                  :5]  # ---------------------------Цена 1 (первые 5 знаков)
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\trend_now.txt',
                               'w') as f_news:
                         f_news.write(now_cost)
                     # ---------------------
-                    VOLstart_cost = str(first_list_split2[0])[
-                                 :5]
-                    VOL_PLUS_or_Minus = int(int(VOLnow_cost) - int(VOLstart_cost))
+                    min5_start_cost = str(first_list_split2[0])[
+                                    :5]
+                    min5_PLUS_or_Minus = int(int(min5_now_cost) - int(min5_start_cost))
 
-                    vol = DANTES_PEAK[-1]  # ----------------------------------Показатель VOL 3 минуты назад)
-                    last_list_split3 = re.split(',', str(vol))  # отжим необходимых чисел
-                    vol_dantes = 0
-                    if VOL_PLUS_or_Minus > 0:
-                        vol_dantes = int(last_list_split3[-1])
-                        with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\vol_3min_check.txt',
-                                  'w') as f_news:
-                            f_news.write(str(vol_dantes))
-                    if VOL_PLUS_or_Minus < 0:
-                        vol_dantes = int('-' + last_list_split3[-1])
-                        with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\vol_3min_check.txt',
-                                  'w') as f_news:
-                            f_news.write(str(vol_dantes))
+                    with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\vol_3min_check.txt',
+                              'w') as f_news:
+                        f_news.write(str(min5_PLUS_or_Minus))
                     DANTES_PEAK.clear()
-                    DANTES_PEAK.append(vol_dantes)
+                    DANTES_PEAK.append(min5_PLUS_or_Minus)
 
-                    vol_show.insert(0, vol_dantes)
+                    vol_show.insert(0, min5_PLUS_or_Minus)
+                    #print(min5_PLUS_or_Minus)
 
                     # vol cheker finish
 
@@ -512,8 +507,8 @@ while True:
                               'w') as f_news:
                         f_news.write(str(in_game_trend2))
 
-                if int(now_cost) > int(start_cost):  # ----------сравниваем
-                    trend_day_count += 1
+                if int(now_cost) >= int(start_cost):         # ----------сравниваем
+                    
                     j = int(now_cost) - int(start_cost)  # 1 - 5 = -4 \ 5 - 1 = 4
 
                     # day_trend_list2.append(str(j) + time_cost)
@@ -547,13 +542,14 @@ while True:
                         day_trend_list2.append("(" + str(int(now_cost) - int(start_cost)) + ")")
                     else:
                         day_trend_list2.append(now_cost + "(" + str(int(now_cost) - int(start_cost)) + ")")
-                    trend_day_count += 1
+                
                     day_trend_list3.append(now_cost)
                     if int(int(now_cost) - int(start_cost)) <= int(EASY_0[0]):
                         day_trend_list.append("0")
                     else:
                         day_trend_list.append("2")
                     day_trend_list3.append(now_cost)
+                trend_day_count += 1
 
             saved_cost = []
             with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\trend_begin.txt', 'r+') as f_news:
@@ -578,9 +574,10 @@ while True:
             res_sleep = [x for x in SLEEPCODE + l5 if x not in SLEEPCODE or x not in l5]
             # SLEEP 00 begin
             if len(res_sleep) == 0 and int(in_game[0]) == 0:
-                #v = "Вхожу в режим ожидания скачка."
-                #bot.send_message(chanel_name, text=v)
-                while int(in_game_trend_sleep[0]) < 50:
+                # v = "Вхожу в режим ожидания скачка."
+                # bot.send_message(chanel_name, text=v)
+                # while int(in_game_trend_sleep[0]) < 50:    #!!!!
+                while int(in_game_trend_sleep[0]) > 700:  # вылючение тихого
                     try:
                         files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
                         for f in files:
@@ -633,10 +630,10 @@ while True:
                         time.sleep(2)
                         continue
 
-                in_game_trend_sleep.insert(0,'0')
+                in_game_trend_sleep.insert(0, '0')
 
-                #tx = "Появилась активность. Выхожу из цикла ожидания."
-                #bot.send_message(chanel_name, text=tx)
+                # tx = "Появилась активность. Выхожу из цикла ожидания."
+                # bot.send_message(chanel_name, text=tx)
 
             # SLEEP 00 over
 
@@ -652,13 +649,17 @@ while True:
                 global count_win, obwuu_profit, tsuga_count, play_obj
 
                 if int(trend_k) >= int(TSUGA_LIMIT[0]) and int(in_game[0]) == 1:
+                    with mss() as sct:
+                        sct.shot()
+                    photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
+
                     Last_sell.append(day_trend_list3[0])
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Sell.txt', 'w') as f_news:
                         f_news.write(day_trend_list3[0])
                     kj = trend_k
                     if int(Audio_on[0]) == 1:
                         play_obj = SUGA.play()
-                    s = str("[ЦУГА на" + TSUGA_LIMIT[0] + "]" + "Фиксирую прибыль: +" + str(kj))
+                    s = str("[ЦУГА на " + TSUGA_LIMIT[0] + "]" + "Фиксирую прибыль: +" + str(kj))
                     count_win += 1
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\count_win.txt',
                               'w') as f_news:
@@ -670,12 +671,8 @@ while True:
                     # "[ЦУГА=60][BTC][ЗАК.КУРС: " + str(day_trend_list3[0]) + "]"
                     telemsg = str("[ЦУГА=" + TSUGA_LIMIT[0] + "]\n[BTC][ЗАК.КУРС: " + str(day_trend_list3[0]) + "]"
                                   + "\nЗабрал +" + str(kj) + "\nСтавок в плюс сегодня: " + str(count_win)
-                                  + "\nСтавок в минус: " + str(count_lose) +
-                                  "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show))
+                                  + "\nСтавок в минус: " + str(count_lose) + "\nОбщий доход за сегодня: " + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                     bot.send_message(chanel_name, text=telemsg)
-                    with mss() as sct:
-                        sct.shot()
-                    photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
                     bot.send_photo(chanel_name, photo)
 
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\profit.txt', 'w') as f_news:
@@ -691,10 +688,13 @@ while True:
                     print('                 ПОПЫТКИ ВЗЯТЬ ЦУГУ:', tsuga_count)
 
             TSUGA()
-            if len(res) == 3 or tsuga_count == 3:
+            #if len(res) == 3 or tsuga_count == 3:
+            if tsuga_count >= 5:                # тестируем условие
                 if int(in_game[0]) == 1:
                     tsuga_count = 0 / int(tsuga_count)
                     print("Снимаю ставку")
+                    with mss() as sct:
+                        sct.shot()
                     Last_sell.append(day_trend_list3[0])
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Sell.txt', 'w') as f_news:
                         f_news.write(day_trend_list3[0])
@@ -719,8 +719,7 @@ while True:
                                       + "\nСтавок в минус :" + str(count_lose) +
                                       "\nОбщий доход за сегодня :" + str(obwuu_profit) + "\nVOL: " + str(vol_show))
                         bot.send_message(chanel_name, text=telemsg)
-                        with mss() as sct:
-                            sct.shot()
+
                         photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
                         bot.send_photo(chanel_name, photo)
                     else:
@@ -742,8 +741,6 @@ while True:
                         if int(Audio_on[0]) == 1:
                             play_obj = LOSTMONEY.play()
                         bot.send_message(chanel_name, text=telemsg)
-                        with mss() as sct:
-                            sct.shot()
                         photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
                         bot.send_photo(chanel_name, photo)
 
@@ -829,8 +826,9 @@ while True:
 
                 elif len(res2) <= 2:
 
-                    if int(in_game[0]) == 0 and int(DANTES_PEAK[-1]) >= 1 and int(
-                            DANTES_PEAK[0]) < 4:  # сделать ставку!!!
+                    if int(in_game[0]) == 0 and int(DANTES_PEAK[0]) <= 300 and int(DANTES_PEAK[0]) >= 100:  # сделать ставку!!!
+                        with mss() as sct:
+                            sct.shot()
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Bet.txt',
                                   'w') as f_news:
                             f_news.write(day_trend_list3[0])
@@ -840,8 +838,7 @@ while True:
                         bot.send_message(chanel_name, text=v)
                         if int(Audio_on[0]) == 1:
                             play_obj = BET.play()
-                        with mss() as sct:
-                            sct.shot()
+
                         photo = open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png', 'rb')
                         bot.send_photo(chanel_name, photo)
                         in_game.append("1")
@@ -852,9 +849,9 @@ while True:
 
                     if int(in_game[0]) == 1:
                         print("\nЕсть активная сделка\n")
-                    if int(DANTES_PEAK[0]) > 4:
+                    if int(DANTES_PEAK[0]) > 200:
                         print("\nМЫ НА ПИКЕ. ПОВТОРНО СТАВИТЬ НЕ БУДУ\n ")
-                    elif int(DANTES_PEAK[0]) == 0:
+                    elif int(DANTES_PEAK[0]) <= 100:
                         print("\nМАЛАЯ ВОЛОНТИЛЬНОСТЬ НА РЫНКЕ. СТАВИТЬ НЕ БУДУ\n")
 
                 teleprint("Сейчас     3м. назад     6м. назад    9.м назад \n" + str(day_trend_list4))
@@ -874,10 +871,10 @@ while True:
                 print("Total Profit:", str(obwuu_profit), "\nCostNow:", day_trend_list3[0], "(", trend_k,
                       ")\n-----------")
 
-            print("Активность рынка:\n   " + str(in_game_trend) +'      VOL:'  , vol_show)
+            print("Активность рынка:\n   " + str(in_game_trend) + '      VOL:', vol_show)
             # удаление файлов в папке в цикле.
-            if len(vol_show) >=1:
-                vol_show.pop(-1)
+            if len(vol_show) >= 1:
+                vol_show.clear()
             files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
             for f in files:
                 os.remove(f)
@@ -933,13 +930,7 @@ while True:
             with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\stop_comand.txt', 'r+') as f_news:
                 stop_comand.append(f_news.read())
             if int(stop_comand[0]) == 0:
-                webbrowser.open(url3)
-                time.sleep(1.8)
-                # Вставляем каждый раз на первое значение в листе последние данные по приросту
-                DANTES_PEAK = []
-                with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\DANTES_PEAK.txt',
-                          'r+') as f_news:
-                    DANTES_PEAK.append(f_news.readlines()[-3])
+
                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\in_game_trend.txt', 'r+') as f_news:
                     in_game_trend.insert(0, str(f_news.read()))
                     if len(in_game_trend) >= 3:
