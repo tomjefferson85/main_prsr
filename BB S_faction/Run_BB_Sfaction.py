@@ -1,7 +1,7 @@
 # ---------------BirjaBot S_faction
-import os, subprocess
+import os, subprocess, logging
 
-os.system("mode con cols=56 lines=22")
+os.system("mode con cols=56 lines=30")
 subprocess.Popen(['python.exe', r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\open_start.py'])
 
 import requests, telebot, re, time, sys, glob, pyautogui, webbrowser, setproctitle
@@ -15,9 +15,7 @@ from telebot import types
 while True:
     try:
         DANTES_PEAK = []
-        files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-        for f in files:
-            os.remove(f)
+
         setproctitle.setproctitle('BB S_FACTION')
         in_game_trend = []
         Audio_on = []
@@ -146,7 +144,7 @@ while True:
                         # Вставляем каждый раз на первое значение в листе последние данные по приросту
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt',
                                   'r+') as f_news:
-                            DANTES_PEAK.append(f_news.readlines()[-1])
+                            DANTES_PEAK.append(f_news.readlines()[1])
 
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Xsec.txt', 'r+') as f_news:
                         Xsec.append(f_news.read())
@@ -171,20 +169,7 @@ while True:
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\emergency_change.txt',
                                   'r+') as f_news:
                             time_change.append(f_news.read())
-                        if int(Xsec[0]) == 5 and t_time == 3:
-                            files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-                            for f in files:
-                                os.remove(f)
-                                time.sleep(0.7)
-                            subprocess.Popen(
-                                ['python.exe', r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\download.py'])
-                        elif int(Xsec[0]) == 20 and t_time == 16:
-                            files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-                            for f in files:
-                                os.remove(f)
-                                time.sleep(0.7)
-                            subprocess.Popen(
-                                ['python.exe', r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\download.py'])
+
                         if int(time_change[0]) == 0:
                             time.sleep(1)
                             sys.stdout.write('\r' + "Новый поиск через: " + str(int(Xsec[0]) - int(t_time)) + " сек...")
@@ -207,8 +192,8 @@ while True:
                     day_trend_list4 = []  # хранение списка 4ех котировок в 5ти минутке
 
                     trend_day_count = 0
-                    lst_count = -1  # --------------последнее начение курса--------------------
-                    frs_count = -2  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
+                    lst_count = 0  # --------------последнее начение курса--------------------
+                    frs_count = 1  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
 
                     # min_5_download
 
@@ -220,8 +205,8 @@ while True:
                         day_trend_list4.clear()
                         time.sleep(1.5)
                         trend_day_count = 0
-                        lst_count5 = -2  # --------------последнее начение курса--------------------
-                        frs_count5 = -3  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
+                        lst_count5 = 1  # --------------последнее начение курса--------------------
+                        frs_count5 = 2  # ----------- значение на (6 * N)=30 мин назад, где N это выбранный диапазон
                         try:
                             while trend_day_count <= 3:
                                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt',
@@ -236,8 +221,8 @@ while True:
                                     first_cot.append(f_news.readlines()[
                                                          frs_count5])  # <----- (-3 это 15 минут назад -6 это 30 мин назад и т.д если интервал 5 мин)
 
-                                lst_count5 -= 1
-                                frs_count5 -= 1
+                                lst_count5 += 1
+                                frs_count5 += 1
                                 # print(lst_count, frs_count)
                                 # -----l -> last-------f -> first----------------------
                                 l = last_cot
@@ -245,21 +230,12 @@ while True:
                                 f = first_cot
                                 f = [line.rstrip() for line in f]
 
-                                last_list_split = re.split(',', str(l[0]))  # отжим необходимых чисел
-                                # time_cost = str(int(str(last_list_split[-2])[2:4]) - 1)
-                                last_list_split2 = re.split("'", str(last_list_split[-1]))
-                                first_list_split = re.split(',', str(f[0]))
-                                # print(last_list_split,first_list_split)
-                                first_list_split2 = re.split("'", str(first_list_split[-1]))
-
-                                now_cost = str(last_list_split2[0])[
-                                           :5]  # ---------------------------Цена 1 (первые 5 знаков)
+                                now_cost = str(l[0])
                                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\trend_now.txt',
                                           'w') as f_news:
                                     f_news.write(now_cost)
                                 # ---------------------
-                                start_cost = str(first_list_split2[0])[
-                                             :5]  # ----------------------------Цена 2 (первые 5 знаков)
+                                start_cost = str(f[0])
                                 # запоинать цену которая выдала еденица и сравнивать последущие значения с ней, чтобы определить идет ли рост
 
                                 with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\EASY_0.txt', 'r+',
@@ -267,7 +243,7 @@ while True:
                                     EASY_0.clear()
                                     EASY_0.append(f_news.read())
                                 if int(now_cost) > int(start_cost):  # ----------сравниваем
-                                    trend_day_count += 1
+
                                     j = int(now_cost) - int(start_cost)  # 1 - 5 = -4 \ 5 - 1 = 4
 
                                     # day_trend_list2.append(str(j) + time_cost)
@@ -278,7 +254,7 @@ while True:
 
                                     # !!! на 5ти минутах и порог выше для '1'  !!!
 
-                                    good_signal = 15
+                                    good_signal = int(EASY_0[0])
                                     if int(j) >= good_signal:
 
                                         day_trend_list_5min.append("1")
@@ -293,7 +269,7 @@ while True:
                                         day_trend_list3.append(now_cost)
                                 # запоинать цену которая выдала еденица и сравнивать последущие значения с ней, чтобы определить идет ли рост
 
-                                elif int(now_cost) < int(start_cost):
+                                elif int(now_cost) <= int(start_cost):
                                     trend_day_count += 1
                                     day_trend_list4.append(now_cost + "(" + str(int(now_cost) - int(start_cost)) + ")")
                                     if int(int(now_cost) - int(start_cost)) <= int(EASY_0[0]):
@@ -301,6 +277,7 @@ while True:
                                     else:
                                         day_trend_list_5min.append("2")
                                     day_trend_list3.append(now_cost)
+                                trend_day_count += 1
 
                         # min_5_dowload over
                         except FileNotFoundError:
@@ -308,14 +285,6 @@ while True:
                             start_progtamm()
 
                     mainCODE = []
-
-                    def BET1():
-
-                        mainCODE.append(day_trend_list[0] + day_trend_list[1])
-                        if int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 1:
-                            print("\nП-1: -!СИЛЬНЫЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0], '\n')
-                        elif int(day_trend_list[0]) == 1 and int(day_trend_list[1]) == 2:
-                            print("\nП-1: -!ХОРОШИЙ Сигнал для ставки!- ЦЕНА:", day_trend_list3[0], '\n')
 
                     while trend_day_count <= 3:
                         open_try = 0
@@ -344,8 +313,8 @@ while True:
                             main_function()
                         # print("COUNT: ",trend_day_count)
 
-                        lst_count -= 1
-                        frs_count -= 1
+                        lst_count += 1
+                        frs_count += 1
                         # print(lst_count, frs_count)
                         # -----l -> last-------f -> first----------------------
                         l = last_cot
@@ -353,21 +322,12 @@ while True:
                         f = first_cot
                         f = [line.rstrip() for line in f]
 
-                        last_list_split = re.split(',', str(l[0]))  # отжим необходимых чисел
-                        # time_cost = str(int(str(last_list_split[-2])[2:4]) - 1)
-                        last_list_split2 = re.split("'", str(last_list_split[-1]))
-                        first_list_split = re.split(',', str(f[0]))
-                        # print(last_list_split,first_list_split)
-                        first_list_split2 = re.split("'", str(first_list_split[-1]))
-
-                        now_cost = str(last_list_split2[0])[
-                                   :5]  # ----------------------------------Цена 1 (первые 5 знаков)
+                        now_cost = str(l[0])
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\trend_now.txt',
                                   'w') as f_news:
                             f_news.write(now_cost)
                         # ---------------------
-                        start_cost = str(first_list_split2[0])[
-                                     :5]  # ----------------------------------Цена 2 (первые 5 знаков)
+                        start_cost = str(f[0])
                         # print(now_cost, start_cost)
                         # Сравнение цены. Чтобы узнать идет ли плюс. Это для снятия ставки в случае 01 21 00
                         in_game_trend2 = str(int(now_cost) - int(start_cost))
@@ -420,8 +380,8 @@ while True:
                             now_5_min = []
                             before_5_min = []
                             time.sleep(1.5)
-                            lst_5count = -1
-                            frs_5count = -2
+                            lst_5count = 0
+                            frs_5count = 1
                             DP = []
                             check_5 = 0
                             while check_5 <= 3:
@@ -451,8 +411,8 @@ while True:
                                     print('Найти фаил 5минут не удалось. Перезагружаюсь')
                                     time.sleep(3)
                                     main_function()
-                                lst_5count -= 1
-                                frs_5count -= 1
+                                lst_5count += 1
+                                frs_5count += 1
                                 # print(lst_count, frs_count)
                                 # -----l -> last-------f -> first----------------------
                                 l = now_5_min
@@ -460,18 +420,10 @@ while True:
                                 f = before_5_min
                                 f = [line.rstrip() for line in f]
 
-                                last_list_split = re.split(',', str(l[0]))  # отжим необходимых чисел
-                                # time_cost = str(int(str(last_list_split[-2])[2:4]) - 1)
-                                last_list_split2 = re.split("'", str(last_list_split[-1]))
-                                first_list_split = re.split(',', str(f[0]))
-                                # print(last_list_split,first_list_split)
-                                first_list_split2 = re.split("'", str(first_list_split[-1]))
-
-                                min5_now_cost = str(last_list_split2[0])[
-                                                :5]  # ---------------------------Цена 1 (первые 5 знаков)
+                                min5_now_cost = str(l[0])  # ---------------------------Цена 1 (первые 5 знаков)
                                 # ---------------------
-                                min5_start_cost = str(first_list_split2[0])[
-                                                  :5]
+                                min5_start_cost = str(f[0])
+
                                 if check_5 == 1:
                                     with open(
                                             r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm_bet.txt',
@@ -530,21 +482,26 @@ while True:
                     # ЛОГИКА ____
                     # TEST
                     min_5_dowload()
+                  
                     code_5min_show.clear()
-                    code_5min_show.append(day_trend_list_5min[0] + day_trend_list_5min[1] + day_trend_list_5min[2] + \
-                                          day_trend_list_5min[3])
+                    code_5min_show.append(day_trend_list_5min[0] + day_trend_list_5min[1])
+                    info_5min = str(code_5min_show[0] + " " + str(DANTES_PEAK[0]))
+                    with open(r'C:\\Users\\user\\Desktop\Python\My_bots\BirjaBotS_faction\while_code_man.txt',
+                              'w') as f_news:
+                        f_news.write(str(info_5min))
                     # TEST
-                    BET1()
-                    FIRSTCODE = ["12", "11"]
+
+                    FIRSTCODE = ["12", "11", "10"]
                     l3 = mainCODE
                     res = [x for x in FIRSTCODE + l3 if x not in FIRSTCODE or x not in l3]
 
                     # SLEEP 00 begin
-                    DOWN_BET_CODE = ["00", "02"]
+                    DOWN_BET_CODE = ["00", "02", "01"]
                     l5 = mainCODE
                     res_down = [x for x in DOWN_BET_CODE + l5 if x not in DOWN_BET_CODE or x not in l5
                                 ]
-                    if len(res_down) == 1:
+                    if len(res_down) == 2:
+
                         DOWN_BET_CODE2 = []
                         DOWN_BET_CODE2.clear()
 
@@ -555,130 +512,60 @@ while True:
                         os.system('cls')
                         if len(res2) >= 4:
 
-                            print("\nПОКА НЕ ВРЕМЯ СТАВИТЬ В ШОРТ...\n")
+                            pass
+                            # print("\nПОКА НЕ ВРЕМЯ СТАВИТЬ В ШОРТ...\n")
 
 
                         elif len(res2) <= 3:
-
-                            # ЕСЛИ ЦЕНА 5ТИ МИНУТКИ МЕНЬШЕ -25 И МИНУТНАЯ ЦЕНА МЕНЬШЕ -10
-                            # И МИНУТНАЯ ЦЕНА БОЛЬШЕ -60 И ЦЕНА 5МИН НАЗАД МЕНЬШЕ -25 И БОЛЬШЕ -220
+                            # "TO SHORT IF"
+                            # ЕСЛИ в эти 5 минут цена больше чем -40
+                            # ЕСЛИ МИНУТНАЯ ЦЕНА МЕНЬШЕ -10
+                            # И МИНУТНАЯ ЦЕНА БОЛЬШЕ -80 И ЦЕНА 5МИН НАЗАД БОЛЬШЕ -220
                             # И ПРИРОСТ ЗА 20 МИН БОЛЬШЕ -300
-                            if int(DANTES_PEAK[0]) < -25 and int(in_game_trend[0]) <= -10 and \
-                                    int(in_game_trend[0]) >= -60 and int(vol_show[1]) <= -25 and int(
-                                vol_show[1]) >= -220 and int(vol_20_min[0]) >= -300:
+                            if int(DANTES_PEAK[0]) > -40 and int(in_game_trend[0]) <= 20 and \
+                                    int(in_game_trend[0]) >= -80 and int(vol_show[1]) >= -220 and int(
+                                vol_20_min[0]) >= -300:
                                 # ПРОВЕРКА НА СВЕЧУ ------------------------------------------------------
+                                zero_count = [0]
+
                                 def last_control():
+
                                     keep_calm_count = 0
                                     YES_NO = []
-                                    zero_count = 0
-                                    with open(r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\Bet.txt',
-                                              'w') as f_news:
-                                        f_news.write(day_trend_list3[0])
-                                    while True:
 
-                                        files = glob.glob(
-                                            'C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-                                        for f in files:
-                                            os.remove(f)
-                                        l = []
-                                        subprocess.call(
-                                            ["python",
-                                             r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\download.py",
-                                             "-i",
-                                             "10", "-l",
-                                             "2"])
-                                        time.sleep(3)
+                                    # while keep_calm_count <= 1:
 
-                                        with open(
-                                                r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt',
-                                                'r+', encoding="utf-8") as f_news:
-                                            l.clear()
-                                            l.append(f_news.readlines()[-1])
+                                    play_obj = signal.play()
+                                    subprocess.call(
+                                        ["python",
+                                         r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm_down.py",
+                                         "-i",
+                                         "10", "-l",
+                                         "2"])
+                                    # os.system('cls')
+                                    keep_calm_count += 1
+                                    with open(
+                                            r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.txt',
+                                            'r+',
+                                            encoding="utf-8") as f_news:
+                                        YES_NO.clear()
+                                        YES_NO.append(f_news.read())
 
-                                        l = [line.rstrip() for line in l]
+                                    if int(YES_NO[0]) == 1:
+                                        zero_count.insert(0, 3)
 
-                                        last_list_split = re.split(',', str(l[0]))  # отжим необходимых чисел
-                                        last_list_split2 = re.split("'", str(last_list_split[-1]))
+                                        # break
 
-                                        now_cost = str(last_list_split2[0])[:5]
-                                        with open(r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\Bet.txt',
-                                                  'w') as f_news:
-                                            f_news.write(now_cost)
+                                    # ------------------------Из ЦУГИ
+                                    if int(YES_NO[0]) == 0:
+                                        print('Свеча выросла выше прошлых 5 минут. Нахуй. Ставить не буду')
+                                        bot.send_message(chanel_name,
+                                                         text="Планировал ставку в ШОРТ. Но что то не сраслось")
 
-                                        subprocess.call(
-                                            ["python",
-                                             r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm_down.py",
-                                             "-i",
-                                             "10", "-l",
-                                             "2"])
-                                        # os.system('cls')
-                                        keep_calm_count += 1
-                                        with open(
-                                                r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.txt',
-                                                'r+',
-                                                encoding="utf-8") as f_news:
-                                            YES_NO.clear()
-                                            YES_NO.append(f_news.read())
-
-                                        if int(YES_NO[0]) == 1:
-                                            zero_count += 3
-                                            print('Цена падает. Отлично. Делаю ставку в шорт')
-                                            bot.send_message(chanel_name, text="Цена не падает. Отлично. Делаю ставку")
-                                            # УСПЕШНО
-                                            telemsg = "[СТАВЛЮ В ШОРТ]\n[BTC] [ТЕК.КУРС: " + str(
-                                                now_cost) + "] + '\nАктивность цены за 5 и 20 мин: " + str(
-                                                vol_show[0]) + " " + str(
-                                                vol_20_min[0]) + '\nАктивность цены за минуту :' + str(
-                                                in_game_trend[0] + "\nКОД1:" + str(mainCODE)
-                                                + "\nКОД5:" + str(code_5min_show[0]))
-                                            print(str(
-                                                "\nУСПЕШНО! --- СТАВКА В ШОРТ ОДОБРЕНА ---- ЦЕНА: " + str(
-                                                    now_cost) + '\n'))
-                                            with mss.mss() as sct:
-                                                # The screen part to capture
-                                                monitor = {"top": 1, "left": 600, "width": 550, "height": 870}
-                                                output = "monitor-1.png".format(**monitor)
-
-                                                # Grab the data
-                                                sct_img = sct.grab(monitor)
-
-                                                # Save to the picture file
-                                                mss.tools.to_png(sct_img.rgb, sct_img.size, output=output)
-
-                                            photo = open(
-                                                r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png',
-                                                'rb')
-                                            media = [
-                                                types.InputMediaPhoto(photo, caption=telemsg, parse_mode='Markdown')]
-                                            bot.send_media_group(chanel_name, media)
-                                            # ------------------------В ЦУГУ
-                                            subprocess.call(
-                                                ["python",
-                                                 r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\tsuga_hunter_down.py",
-                                                 "-i",
-                                                 "10", "-l",
-                                                 "2"])
-                                            time.sleep(2)
-                                            start_progtamm()
-                                        # ------------------------Из ЦУГИ
-                                        elif int(YES_NO[0]) == 2:
-                                            print('Свеча выросла выше прошлых 5 минут. Нахуй. Ставить не буду')
-                                            bot.send_message(chanel_name,
-                                                             text="Свеча выросла выше прошлых 5 минут. Нахуй. Ставить не буду")
-                                            time.sleep(2)
-                                            start_progtamm()
-
-                                        elif zero_count == 3:
-                                            bot.send_message(chanel_name,
-                                                             text="Свеча не зафиксировалась в шорт. Ставить не буду")
-
-                                            break
-                                        elif int(YES_NO[0]) == 0:
-                                            print('Цена растет. Не ставлю, Мониторю')
-                                            zero_count += 1
-                                            time.sleep(2)
-                                            # bot.send_message(chanel_name, text="Цена падает. Не ставлю, Мониторю")
-                                            continue
+                                    '''elif int(YES_NO[0]) == 0:
+                                        print('Цена падает. Не ставлю, Мониторю')
+                                        zero_count.insert(0, int(zero_count[0]) + 1 )
+                                        print('Попытка: ', zero_count[0], 'из 2ух')'''
 
                                 last_control()
 
@@ -686,20 +573,20 @@ while True:
 
                             if int(vol_20_min[0]) <= -300:
                                 teleprint("\nМЫ НА ПИКЕ ПАДЕНИЯ. СТАВИТЬ НЕ БУДУ\n ")
-                            elif int(DANTES_PEAK[0]) >= -25 or int(in_game_trend[0]) >= -20:
+                            elif int(in_game_trend[0]) >= 20:
                                 teleprint("\nРЫНОК ЕЩЕ СЛАБ ДЛЯ УВЕРЕННОЙ СТАВКИ В ШОРТ . СТАВИТЬ НЕ БУДУ\n")
                             else:
-                                print('\nНе подходящее условия на рынке для ставки в шорт\n')
+                                print('\nНе подходящее условия на рынке для SHORT ставки\n')
 
 
                     else:
                         pass
 
-                    if len(res) == 1:
+                    if len(res) == 2:
 
                         with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\Xsec.txt',
                                   'w') as f_news:
-                            print("Поехали, че то намечается, начинаю мониторить каждые 5 сек")
+                            # print("Поехали, че то намечается, начинаю мониторить каждые 5 сек")
                             if int(Audio_on[0]) == 1:
                                 play_obj = Signal.play()
                             f_news.write("5")
@@ -711,134 +598,64 @@ while True:
                         SECONDCODE = ["12", "11", "10"]
                         l4 = mainCODE2
                         res2 = [x for x in SECONDCODE + l4 if x not in SECONDCODE or x not in l4]
-                        os.system('cls')
+                        # os.system('cls')
                         if len(res2) >= 4:
 
-                            print("\nПОКА НЕ ВРЕМЯ СТАВИТЬ В ЛОНГ...\n")
-
+                            # print("\nПОКА НЕ ВРЕМЯ СТАВИТЬ В ЛОНГ...\n")
+                            pass
 
                         elif len(res2) <= 3:
-
-                            # ЕСЛИ ЦЕНА 5ТИ МИНУТКИ БОЛЬШЕ 25 И МИНУТНАЯ ЦЕНА БОЛЬШЕ 10
-                            # И МИНУТНАЯ ЦЕНА МЕНЬШЕ 60 И ЦЕНА 5МИН НАЗАД БОЛЬШЕ 30 И МЕНЬШЕ 220
+                            # "TO LONG IF"
+                            # ЕСЛИ в эти 5 минут цена  меньше чем 40
+                            # ЕСЛИ ЦЕНА МИНУТНАЯ ЦЕНА БОЛЬШЕ 10
+                            # И МИНУТНАЯ ЦЕНА МЕНЬШЕ 80 И ЦЕНА 5МИН НАЗАД МЕНЬШЕ 220
                             # И ПРИРОСТ ЗА 20 МИН МЕНЬШЕ 300
-                            if int(DANTES_PEAK[0]) > 25 and int(in_game_trend[0]) >= 10 and \
-                                    int(in_game_trend[0]) <= 60 and int(vol_show[1]) >= 30 and int(
-                                vol_show[1]) <= 220 and int(
+                            if int(DANTES_PEAK[0]) < 40 and int(in_game_trend[0]) >= -20 and \
+                                    int(in_game_trend[0]) <= 80 and int(vol_show[1]) <= 220 and int(
                                 vol_20_min[0]) <= 300:
+                                zero_count = [0]
 
                                 # ПРОВЕРКА НА СВЕЧУ ------------------------------------------------------
                                 def last_control():
+
                                     keep_calm_count = 0
                                     YES_NO = []
-                                    zero_count = 0
-                                    with open(r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\Bet.txt',
-                                              'w') as f_news:
-                                        f_news.write(day_trend_list3[0])
-                                    while True:
 
-                                        files = glob.glob(
-                                            'C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-                                        for f in files:
-                                            os.remove(f)
-                                        l = []
-                                        subprocess.call(
-                                            ["python",
-                                             r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\download.py",
-                                             "-i",
-                                             "10", "-l",
-                                             "2"])
-                                        time.sleep(3)
+                                    # while keep_calm_count <= 1:
+                                    play_obj = signal.play()
+                                    subprocess.call(
+                                        ["python",
+                                         r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.py",
+                                         "-i",
+                                         "10", "-l",
+                                         "2"])
+                                    # os.system('cls')
+                                    keep_calm_count += 1
+                                    with open(
+                                            r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.txt',
+                                            'r+',
+                                            encoding="utf-8") as f_news:
+                                        YES_NO.clear()
+                                        YES_NO.append(f_news.read())
 
-                                        with open(
-                                                r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\txt\BTCUSD5min.txt',
-                                                'r+', encoding="utf-8") as f_news:
-                                            l.clear()
-                                            l.append(f_news.readlines()[-1])
+                                    if int(YES_NO[0]) == 1:
+                                        zero_count.insert(0, 3)
 
-                                        l = [line.rstrip() for line in l]
+                                        # break
+                                    # ------------------------Из ЦУГИ
+                                    if int(YES_NO[0]) == 0:
+                                        print('Свеча упала ниже прошлых 5 минут. Нахуй. Ставить не буду')
+                                        bot.send_message(chanel_name,
+                                                         text="Планировал ставку ЛОНГ. Но что то не сраслось")
 
-                                        last_list_split = re.split(',', str(l[0]))  # отжим необходимых чисел
-                                        last_list_split2 = re.split("'", str(last_list_split[-1]))
+                                        # break
 
-                                        now_cost = str(last_list_split2[0])[:5]
-                                        with open(r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\Bet.txt',
-                                                  'w') as f_news:
-                                            f_news.write(now_cost)
+                                    '''elif int(YES_NO[0]) == 0:
+                                        print('Цена падает. Не ставлю, Мониторю')
+                                        zero_count.insert(0, int(zero_count[0]) + 1 )
+                                        print('Попытка: ', zero_count[0], 'из 2ух')'''
 
-                                        subprocess.call(
-                                            ["python",
-                                             r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.py",
-                                             "-i",
-                                             "10", "-l",
-                                             "2"])
-                                        # os.system('cls')
-                                        keep_calm_count += 1
-                                        with open(
-                                                r'C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\keep_calm.txt',
-                                                'r+',
-                                                encoding="utf-8") as f_news:
-                                            YES_NO.clear()
-                                            YES_NO.append(f_news.read())
-
-                                        if int(YES_NO[0]) == 1:
-                                            zero_count += 3
-                                            print('Цена не падает. Отлично. Делаю ставку')
-                                            bot.send_message(chanel_name, text="Цена не падает. Отлично. Делаю ставку")
-                                            # УСПЕШНО
-                                            telemsg = "[СТАВЛЮ В РОСТ]\n[BTC] [ТЕК.КУРС: " + str(
-                                                now_cost) + "] + '\nАктивность цены за 5 и 20 мин: " + str(
-                                                vol_show[0]) + " " + str(
-                                                vol_20_min[0]) + '\nАктивность цены за минуту :' + str(
-                                                in_game_trend[0] + "\nКОД1:" + str(mainCODE)
-                                                + "\nКОД5:" + str(code_5min_show[0]))
-                                            print(str(
-                                                "\nУСПЕШНО! --- СТАВКА ОДОБРЕНА ---- ЦЕНА: " + str(now_cost) + '\n'))
-                                            with mss.mss() as sct:
-                                                # The screen part to capture
-                                                monitor = {"top": 1, "left": 600, "width": 550, "height": 870}
-                                                output = "monitor-1.png".format(**monitor)
-
-                                                # Grab the data
-                                                sct_img = sct.grab(monitor)
-
-                                                # Save to the picture file
-                                                mss.tools.to_png(sct_img.rgb, sct_img.size, output=output)
-
-                                            photo = open(
-                                                r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\monitor-1.png',
-                                                'rb')
-                                            media = [
-                                                types.InputMediaPhoto(photo, caption=telemsg, parse_mode='Markdown')]
-                                            bot.send_media_group(chanel_name, media)
-                                            # ------------------------В ЦУГУ
-                                            subprocess.call(
-                                                ["python",
-                                                 r"C:\\Users\\user\Desktop\Python\My_bots\BirjaBotS_faction\tsuga_hunter.py",
-                                                 "-i",
-                                                 "10", "-l",
-                                                 "2"])
-                                            time.sleep(2)
-                                            start_progtamm()
-                                        # ------------------------Из ЦУГИ
-                                        elif int(YES_NO[0]) == 2:
-                                            print('Свеча упала ниже прошлых 5 минут. Нахуй. Ставить не буду')
-                                            bot.send_message(chanel_name,
-                                                             text="Свеча упала ниже прошлых 5 минут. Нахуй. Ставить не буду")
-                                            time.sleep(2)
-                                            start_progtamm()
-
-                                        elif zero_count == 3:
-                                            bot.send_message(chanel_name,
-                                                             text="Свеча не зафиксировалась. Ставить не буду")
-
-                                            break
-                                        elif int(YES_NO[0]) == 0:
-                                            print('Цена падает. Не ставлю, Мониторю')
-                                            zero_count += 1
-                                            time.sleep(2)
-                                            # bot.send_message(chanel_name, text="Цена падает. Не ставлю, Мониторю")
-                                            continue
+                                    # bot.send_message(chanel_name, text="Цена падает. Не ставлю, Мониторю")
 
                                 last_control()
 
@@ -846,10 +663,10 @@ while True:
 
                             if int(vol_20_min[0]) >= 300:
                                 teleprint("\nМЫ НА ПИКЕ. СТАВИТЬ НЕ БУДУ\n ")
-                            elif int(DANTES_PEAK[0]) <= 25 or int(in_game_trend[0]) <= 20:
-                                teleprint("\nРЫНОК ЕЩЕ СЛАБ ДЛЯ УВЕРЕННОЙ СТАВКИ . СТАВИТЬ НЕ БУДУ\n")
+                            elif int(in_game_trend[0]) <= -20:
+                                teleprint("\nРЫНОК ЕЩЕ СЛАБ ДЛЯ УВЕРЕННОЙ СТАВКИ D ЛОНГ . СТАВИТЬ НЕ БУДУ\n")
                             else:
-                                print('\nНе подходящее условия на рынке для ставки\n')
+                                print('\nНе подходящее условия на рынке для LONG ставки\n')
 
 
                     else:
@@ -875,9 +692,6 @@ while True:
                     # удаление файлов в папке в цикле.
 
                     vol_show.clear()
-                    files = glob.glob('C:\\Users\\user\\Desktop\\Python\\My_bots\\BirjaBotS_faction\\txt\\*')
-                    for f in files:
-                        os.remove(f)
 
 
                 def start_bet():
@@ -893,21 +707,23 @@ while True:
                 vol_show = []
 
                 while True:
-                
-                
+
                     now = dt.datetime.now()
-                    def time_work():
-                        while True:
+                    '''def time_work():
+                        w_time = 0
+                        while not (now.hour >= 9 and now.hour < 19):
+
                             if now.hour >= 9 and now.hour < 19:
                                 break
                             else:
                                 os.system('cls')
                                 print("Трейдинг недоступен.\nЧасы работы с 9 до 19ти")
-                                time.sleep(900)
+                                sys.stdout.write('\r' + "Сверка времени через: " + str(20 - int(w_time)) + " сек...")
+                                w_time += 1
+                                time.sleep(1)
                                 continue
-                    time_work()
-                    
-                    
+                    time_work()'''
+
                     profit_load = []
                     with open(r'C:\Users\user\Desktop\Python\My_bots\BirjaBotS_faction\day_profit.txt', 'r+',
                               encoding="utf-8") as f_news:
@@ -992,9 +808,10 @@ while True:
                 time.sleep(10)
                 continue
 
-            except Exception:
+            except Exception as err:
+                logging.error(err, exc_info=True)
                 bot.send_message(chanel_name, text="Critical Error / Reloading,,,")
-                print("Critical Error / Reloading,,,")
+                print("\nCritical Error / Reloading,,,")
                 time.sleep(1)
                 pyautogui.click(x=356, y=521, clicks=2, interval=0.8)
                 start_progtamm()
